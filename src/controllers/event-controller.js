@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import EventService from './../services/event-service.js';
-import Event from './../entities/event.js'
+import Event from './../entities/events.js'
 import ValidacionesHelper from '../helpers/ValidacionesHelper.js';
 const router = Router();
 const svc = new EventService();
