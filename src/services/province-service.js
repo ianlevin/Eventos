@@ -22,9 +22,9 @@ export default class ProvinceService{
         const objeto = await repo.UpdateAsync(entity);
         return objeto;
     }
-    DeleteByIdAsync = async (id) => {
+    deleteByIdAsync = async (id) => {
         const repo = new ProvinceRepository();
-        const objeto = await repo.DeleteByIdAsync(id);
+        const objeto = await repo.deleteByIdAsync(id);
         return objeto;
     }
 }

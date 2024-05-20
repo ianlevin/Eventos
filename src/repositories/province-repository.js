@@ -65,7 +65,7 @@ export default class ProvinceRepository {
         }
         return objeto;
     }
-    DeleteByIdAsync = async (id) => {
+    deleteByIdAsync = async (id) => {
         let objeto = null
         const client = new Client(config)
         try{

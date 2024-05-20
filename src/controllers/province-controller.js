@@ -58,7 +58,7 @@ router.put('', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
     let respuesta;
-    const returnArray = await svc.DeleteByIdAsync(req.params.id);
+    const returnArray = await svc.deleteByIdAsync(req.params.id);
 
     if(ValidacionesHelper.ValidaNumero(req.params.id)){
         respuesta = res.status(200).send("No se escribio un numero")
