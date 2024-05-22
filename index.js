@@ -5,6 +5,7 @@ import EventRouter from "./src/controllers/event-controller.js"
 import TagRouter from "./src/controllers/tag-controller.js"
 import Event_CategoriesRouter from "./src/controllers/event_categories-controller.js"
 import Event_LocationsRouter from "./src/controllers/event_locations-controller.js"
+import Event_TagsRouter from "./src/controllers/event_tags-controller.js"
 
 const app = express();
 const port = 3000;
@@ -17,6 +18,8 @@ app.use('/api/event', EventRouter);
 app.use('/api/tag', TagRouter)
 app.use('/api/categories', Event_CategoriesRouter)
 app.use('/api/eventlocations', Event_LocationsRouter)
+app.use('/api/eventtags', Event_TagsRouter)
+
 
 app.listen(port, () => {
     console.log(`"server" Listening on port ${port}`);
