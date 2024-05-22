@@ -2,7 +2,7 @@ class Event_location{
     id;
     id_location;
     name;
-    full_adress;
+    full_address;
     max_capacity;
     latitude;
     longitude;

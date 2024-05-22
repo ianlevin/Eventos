@@ -26,7 +26,7 @@ router.get('/:id', async (req, res) => {
         if(returnArray.length > 0){
             respuesta = res.status(200).json(returnArray);
         }else if(returnArray.length == 0){
-            respuesta = res.status(200).send("No hay ninguna categoria con ese id")
+            respuesta = res.status(404).send("No hay ninguna categoria con ese id")
         }else{
             respuesta = res.status(500).send('Error interno.');
         }

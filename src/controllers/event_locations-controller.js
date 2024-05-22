@@ -1,9 +1,9 @@
 import {Router} from 'express';
-import Event_CategorieService from '../services/event_category-service.js';
-import Event_categorie from '../entities/event_categorie.js'
+import Event_LocationService from '../services/event_location-service.js';
+import Event_location from '../entities/event_location.js'
 import ValidacionesHelper from '../helpers/ValidacionesHelper.js';
 const router = Router();
-const svc = new Event_CategorieService();
+const svc = new Event_LocationService();
 
 router.get('', async (req, res) => {
     let respuesta;
@@ -26,7 +26,7 @@ router.get('/:id', async (req, res) => {
         if(returnArray.length > 0){
             respuesta = res.status(200).json(returnArray);
         }else if(returnArray.length == 0){
-            respuesta = res.status(200).send("No hay ninguna categoria con ese id")
+            respuesta = res.status(404).send("No hay ninguna localidad de evento con ese id")
         }else{
             respuesta = res.status(500).send('Error interno.');
         }
@@ -36,8 +36,8 @@ router.get('/:id', async (req, res) => {
 
 router.post('', async (req, res) => {
     let respuesta;
-    let event_categorie = new Event_categorie(0,req.body.name, req.body.display_order)
-    const returnArray = await svc.createAsync(event_categorie);
+    let event_location = new Event_location(0,req.body.id_location,req.body.name,req.body.full_address,req.body.max_capacity,req.body.latitude,req.body.longitude,req.body.id_creator_user)
+    const returnArray = await svc.createAsync(event_location);
     if(returnArray == 1){
         respuesta = res.status(200).send('Se ha creado correctamente');
     }else{
@@ -48,8 +48,8 @@ router.post('', async (req, res) => {
 router.put('', async (req, res) => {
     let respuesta;
 
-    let event_categorie = new Event_categorie(req.body.id,req.body.name,req.body.display_order)
-    const returnArray = await svc.updateAsync(event_categorie);
+    let event_location = new Event_location(req.body.id,req.body.id_location,req.body.name,req.body.full_adress,req.body.max_capacity,req.body.latitude,req.body.longitude,req.body.id_creator_user)
+    const returnArray = await svc.updateAsync(event_location);
     if(returnArray == 1){
         respuesta = res.status(200).send('Se ha cambiado correctamente');
     }else{
