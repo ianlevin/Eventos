@@ -18,4 +18,21 @@ export default class EventRepository{
         }
         return returnArray;
     }
+
+    getByIdAsync = async (id) => {
+        let objeto = null
+        const client = new Client(config)
+        try{
+            await client.connect()
+            const sql = 'SELECT * FROM Events WHERE Id = $1'
+            const values = [id]
+
+            const result = await client.query(sql, values)
+            await client.end()
+            objeto = result.rows
+        }catch (error){
+            console.log(error)
+        }
+        return objeto;
+    }
 }

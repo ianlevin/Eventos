@@ -21,4 +21,10 @@ export default class EventService{
         let returnArray = await repo.getAsync(sqlfinal);
         return returnArray;
     }
+
+    getByIdAsync = async (id) => {
+        const repo = new EventRepository();
+        const objeto = await repo.getByIdAsync(id);
+        return objeto;
+    }
 }
