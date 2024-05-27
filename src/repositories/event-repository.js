@@ -24,7 +24,8 @@ export default class EventRepository{
         const client = new Client(config)
         try{
             await client.connect()
-            const sql = `events.id_event_category, 
+            const sql = `select events.id,
+            events.id_event_category, 
             events.id_event_location,
             events.start_date, 
             events.duration_in_minutes, 
@@ -32,7 +33,7 @@ export default class EventRepository{
             events.enabled_for_enrollment, 
             events.max_assistance, 
             events.id_creator_user,
-            'event_location', json_build_object(
+            json_build_object(
                 'id', event_locations.id,
                 'id_location', event_locations.id_location,
                 'name', event_locations.name,
@@ -56,26 +57,26 @@ export default class EventRepository{
                         'display_order', provinces.display_order
                     )
                 )
-            ),
-            'creator_user', json_build_object(
+            ) as event_location,
+             json_build_object(
                 'id', users.id,
                 'first_name', users.first_name,
                 'last_name', users.last_name,
                 'username', users.username,
                 'password', users.password
-            ),
-            'tags', (
+            )as creator_user,
+             (
                 select json_agg(json_build_object(tags.id, tags.name))
                 from tags
                 join event_tags on tags.id = event_tags.id_tag
             
                 where event_tags.id = events.id
-            ),
-            'event_category', json_build_object(
+            )as tags,
+            	json_build_object(
                 'id', event_categories.id,
                 'name', event_categories.name,
                 'display_order', event_categories.display_order
-            )
+            ) as event_category
             
             from events
             left join event_categories on events.id = event_categories.id
@@ -86,8 +87,7 @@ export default class EventRepository{
             left join provinces on locations.id_province = provinces.id
             where events.id = $1`
 
-
-            let values = [id]
+            const values = [id]
             const result = await client.query(sql,values)
             await client.end()
             objeto = result.rows

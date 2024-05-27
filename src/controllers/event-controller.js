@@ -24,9 +24,9 @@ router.get('/:id', async (req, res) => {
         respuesta = res.status(200).send("No se escribio un numero")
     }else{
         const returnArray = await svc.getByIdAsync(req.params.id);
-        if(returnArray.length > 0){
+        if(returnArray != null){
             respuesta = res.status(200).json(returnArray);
-        }else if(returnArray.length == 0){
+        }else if(returnArray == null){
             respuesta = res.status(200).send("No hay ningun evento con ese id")
         }else{
             respuesta = res.status(500).send('Error interno.');

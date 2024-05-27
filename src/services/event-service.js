@@ -23,6 +23,7 @@ export default class EventService{
     }
 
     getByIdAsync = async (id) => {
+        console.log("a")
         const repo = new EventRepository();
         const objeto = await repo.getByIdAsync(id);
         return objeto;
