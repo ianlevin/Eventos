@@ -24,10 +24,7 @@ export default class EventRepository{
         const client = new Client(config)
         try{
             await client.connect()
-            const sql = `select events.id, 
-            events.name, 
-            events.description, 
-            events.id_event_category, 
+            const sql = `events.id_event_category, 
             events.id_event_location,
             events.start_date, 
             events.duration_in_minutes, 
@@ -59,18 +56,58 @@ export default class EventRepository{
                         'display_order', provinces.display_order
                     )
                 )
+            ),
+            'creator_user', json_build_object(
+                'id', users.id,
+                'first_name', users.first_name,
+                'last_name', users.last_name,
+                'username', users.username,
+                'password', users.password
+            ),
+            'tags', (
+                select json_agg(json_build_object(tags.id, tags.name))
+                from tags
+                join event_tags on tags.id = event_tags.id_tag
+            
+                where event_tags.id = events.id
+            ),
+            'event_category', json_build_object(
+                'id', event_categories.id,
+                'name', event_categories.name,
+                'display_order', event_categories.display_order
             )
+            
             from events
-            inner join event_locations on events.id = event_locations.id
-            inner join locations on event_locations.id = locations.id
-            inner join provinces on locations.id_province = provinces.id`
+            left join event_categories on events.id = event_categories.id
+            left join event_tags on events.id = event_tags.id
+            left join users on events.id = users.id
+            left join event_locations on events.id = event_locations.id
+            left join locations on event_locations.id = locations.id
+            left join provinces on locations.id_province = provinces.id
+            where events.id = $1`
 
 
-            const values = [id]
+            let values = [id]
+            const result = await client.query(sql,values)
+            await client.end()
+            objeto = result.rows
+        }catch (error){
+            console.log(error)
+        }
+        return objeto;
+    }
+
+    UpdateAsync = async (entity) => {
+        let objeto = 0
+        const client = new Client(config)
+        try{
+            await client.connect()
+            const sql = 'UPDATE events SET name = $1, description = $2, id_event_category = $3, id_event_category = $4, start_date = $5 ,duration_in_minutes = $6, price = $7,enables_for_enrollment = $8,max_assistance = $9,id_creator_user = $10 where id = $11'
+            const values = [entity.name, entity.description, entity.id_event_category,entity.id_event_location, entity.start_date, entity.duration_in_minutes, entity.price, entity.enables_for_enrollment,entity.max_assistance,entity.id_creator_user,entity.id]
 
             const result = await client.query(sql, values)
             await client.end()
-            objeto = result.rows
+            objeto = result.rowCount
         }catch (error){
             console.log(error)
         }

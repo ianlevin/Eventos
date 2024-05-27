@@ -35,4 +35,15 @@ router.get('/:id', async (req, res) => {
     
 })
 
+router.put('', async (req, res) => {
+    let respuesta;
+    let evento = new Event(req.body.id,req.body.name, req.body.description, req.body.id_event_category,req.body.id_event_location, req.body.start_date, req.body.duration_in_minutes, req.body.price, req.body.enables_for_enrollment,req.body.max_assistance,req.body.id_creator_user)
+    const returnArray = await svc.UpdateAsync(evento);
+    if(returnArray == 1){
+        respuesta = res.status(200).send('Se ha cambiado correctamente');
+    }else{
+        respuesta = res.status(500).send('Error interno.');
+    }
+})
+
 export default router;

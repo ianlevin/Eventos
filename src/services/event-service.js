@@ -27,4 +27,10 @@ export default class EventService{
         const objeto = await repo.getByIdAsync(id);
         return objeto;
     }
+
+    UpdateAsync = async (entity) => {
+        const repo = new EventRepository();
+        const objeto = await repo.UpdateAsync(entity);
+        return objeto;
+    }
 }
