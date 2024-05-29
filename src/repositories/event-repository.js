@@ -25,6 +25,8 @@ export default class EventRepository{
         try{
             await client.connect()
             const sql = `select events.id,
+            events.name,
+            events.description,
             events.id_event_category, 
             events.id_event_location,
             events.start_date, 
@@ -97,13 +99,37 @@ export default class EventRepository{
         return objeto;
     }
 
-    UpdateAsync = async (entity) => {
+    createAsync = async (entity) => {
+        let objeto = null
+        const client = new Client(config)
+        try{
+            await client.connect()
+            let sql = 'select max_capacity from event_locations where id = $1'
+            let values = [entity.id_event_location]
+            let result = await client.query(sql, values)
+
+            if(parseInt(result.rows[0].max_capacity) < entity.max_assistance){
+                return "max_assistance_error"
+            }
+            sql = 'INSERT into Events (name, description, id_event_category, id_event_location, start_date ,duration_in_minutes, price,enabled_for_enrollment,max_assistance,id_creator_user) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)'
+            values = [entity.name, entity.description, entity.id_event_category ,entity.id_event_location, entity.start_date, entity.duration_in_minutes, entity.price, entity.enabled_for_enrollment,entity.max_assistance,entity.id_creator_user]
+
+            result = await client.query(sql, values)
+            await client.end()
+            objeto = result.rowCount
+        }catch (error){
+            console.log(error)
+        }
+        return objeto;
+    }
+
+    updateAsync = async (entity) => {
         let objeto = 0
         const client = new Client(config)
         try{
             await client.connect()
             const sql = 'UPDATE events SET name = $1, description = $2, id_event_category = $3, id_event_location = $4, start_date = $5 ,duration_in_minutes = $6, price = $7,enabled_for_enrollment = $8,max_assistance = $9,id_creator_user = $10 where id = $11'
-            const values = [entity.name, entity.description, entity.id_event_category,entity.id_event_location, entity.start_date, entity.duration_in_minutes, entity.price, entity.enables_for_enrollment,entity.max_assistance,entity.id_creator_user,entity.id]
+            const values = [entity.name, entity.description, entity.id_event_category,entity.id_event_location, entity.start_date, entity.duration_in_minutes, entity.price, entity.enabled_for_enrollment,entity.max_assistance,entity.id_creator_user,entity.id]
 
             const result = await client.query(sql, values)
             await client.end()

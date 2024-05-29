@@ -25,7 +25,7 @@ router.get('/:id', async (req, res) => {
     }else{
         const returnArray = await svc.getByIdAsync(req.params.id);
         if(returnArray != null){
-            respuesta = res.status(200).json(returnArray);
+            respuesta = res.status(200).json(returnArray);           
         }else if(returnArray == null){
             respuesta = res.status(200).send("No hay ningun evento con ese id")
         }else{
@@ -35,10 +35,29 @@ router.get('/:id', async (req, res) => {
     
 })
 
+router.post('', async (req, res) => {
+    let respuesta;
+    if(ValidacionesHelper.ValidarMayorATresLetras(req.body.name) && ValidacionesHelper.ValidarMayorATresLetras(req.body.description) && req.body.price>=0 && req.body.duration_in_minutes>=0){
+        let evento = new Event(0, req.body.name,req.body.description, req.body.id_event_category,req.body.id_event_location, req.body.start_date, req.body.duration_in_minutes, req.body.price, req.body.enables_for_enrollment,req.body.max_assistance,req.body.id_creator_user)
+        const returnArray = await svc.createAsync(evento);
+        if(returnArray == 'max_assistance_error'){
+            respuesta = res.status(401).send('max_assistance es mayor que max_capacity del evento');
+        }
+        else if(returnArray == 1){
+            respuesta = res.status(200).send('Se ha creado correctamente');
+        }else{
+            respuesta = res.status(500).send('Error interno.');
+        }
+    }else{
+        respuesta = res.status(401).send("hay algun campo erroneo en la entrada de datos")
+    }
+    
+})
+
 router.put('', async (req, res) => {
     let respuesta;
     let evento = new Event(req.body.id,req.body.name, req.body.description, req.body.id_event_category,req.body.id_event_location, req.body.start_date, req.body.duration_in_minutes, req.body.price, req.body.enables_for_enrollment,req.body.max_assistance,req.body.id_creator_user)
-    const returnArray = await svc.UpdateAsync(evento);
+    const returnArray = await svc.updateAsync(evento);
     if(returnArray == 1){
         respuesta = res.status(200).send('Se ha cambiado correctamente');
     }else{
