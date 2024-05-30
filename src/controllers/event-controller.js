@@ -2,6 +2,7 @@ import {Router} from 'express';
 import EventService from './../services/event-service.js';
 import Event from './../entities/events.js'
 import ValidacionesHelper from '../helpers/ValidacionesHelper.js';
+import DesencriptationsMiddleware from '../middlewares/desencriptation-middleware.js'
 const router = Router();
 const svc = new EventService();
 
@@ -51,6 +52,12 @@ router.post('', async (req, res) => {
     }else{
         respuesta = res.status(401).send("hay algun campo erroneo en la entrada de datos")
     }
+    
+})
+
+router.post('/:id/enrollment', async (req, res) => {
+    
+    
     
 })
 

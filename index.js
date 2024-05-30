@@ -6,6 +6,7 @@ import TagRouter from "./src/controllers/tag-controller.js"
 import Event_CategoriesRouter from "./src/controllers/event_categories-controller.js"
 import Event_LocationsRouter from "./src/controllers/event_locations-controller.js"
 import Event_TagsRouter from "./src/controllers/event_tags-controller.js"
+import UserRouter from './src/controllers/user-controller.js'
 
 const middlewareUsuario = function (req, res, next){
     
@@ -24,6 +25,7 @@ app.use('/api/categories', Event_CategoriesRouter)
 
 app.use('/api/eventlocations', Event_LocationsRouter)
 app.use('/api/eventtags', Event_TagsRouter)
+app.use('/api/user', UserRouter)
 
 
 app.listen(port, () => {

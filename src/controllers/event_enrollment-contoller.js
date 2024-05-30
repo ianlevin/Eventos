@@ -1,32 +1,48 @@
 import {Router} from 'express';
-import UserService from '../services/user-service.js';
-import User from '../entities/user.js'
+import Ecent_enrollmentService from '../services/event_category-service.js';
+import Event_enrollment from '../entities/event_categorie.js'
 import ValidacionesHelper from '../helpers/ValidacionesHelper.js';
-import encriptationmiddleware from  '../middlewares/encriptation-middleware.js'
 const router = Router();
-const svc = new UserService();
+const svc = new Event_EnrollmentService();
 
-router.post('/login', async (req, res) => {
-
+router.get('', async (req, res) => {
     let respuesta;
-    const token = await svc.verifyAsync(req.body.username, req.body.password);
-    if(token != null){
-        respuesta = res.status(200).send(token);
-    }else{
+    const returnArray = await svc.getAllAsync();
+    if (returnArray != null){
+        respuesta = res.status(200).send(returnArray);
+    }
+    else {
         respuesta = res.status(500).send('Error interno.');
     }
-})
-router.post('/register', async (req, res) => {
+    return respuesta;
+});
 
+router.get('/:id', async (req, res) => {
+    let respuesta;
+    if(ValidacionesHelper.ValidaNumero(req.params.id)){
+        respuesta = res.status(200).send("No se escribio un numero")
+    }else{
+        const returnArray = await svc.getByIdAsync(req.params.id);
+        if(returnArray.length > 0){
+            respuesta = res.status(200).json(returnArray);
+        }else if(returnArray.length == 0){
+            respuesta = res.status(404).send("No hay ninguna categoria con ese id")
+        }else{
+            respuesta = res.status(500).send('Error interno.');
+        }
+    }
     
-    /*let respuesta;
+})
+
+router.post('', async (req, res) => {
+    let respuesta;
     let event_categorie = new Event_categorie(0,req.body.name, req.body.display_order)
     const returnArray = await svc.createAsync(event_categorie);
     if(returnArray == 1){
         respuesta = res.status(200).send('Se ha creado correctamente');
     }else{
         respuesta = res.status(500).send('Error interno.');
-    }*/
+    }
 })
 
 router.put('', async (req, res) => {
