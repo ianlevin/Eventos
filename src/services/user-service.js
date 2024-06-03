@@ -16,7 +16,7 @@ export default class UserService{
         const options = {
             expiresIn: '1h'
         }
-        const token = jwt.sign(payload,"fidnaodo", options)
+        const token = jwt.sign(payload,"SECRET_KEY", options)
 
         return token;
     }

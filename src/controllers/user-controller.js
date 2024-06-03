@@ -2,12 +2,12 @@ import {Router} from 'express';
 import UserService from '../services/user-service.js';
 import User from '../entities/user.js'
 import ValidacionesHelper from '../helpers/ValidacionesHelper.js';
-import encriptationmiddleware from  '../middlewares/encriptation-middleware.js'
+import AutorizationMiddleware from '../middlewares/authorization-middleware.js'
 const router = Router();
 const svc = new UserService();
+const mw = new AutorizationMiddleware();
 
 router.post('/login', async (req, res) => {
-
     let respuesta;
     const token = await svc.verifyAsync(req.body.username, req.body.password);
     if(token != null){
@@ -18,15 +18,13 @@ router.post('/login', async (req, res) => {
 })
 router.post('/register', async (req, res) => {
 
-    
-    /*let respuesta;
-    let event_categorie = new Event_categorie(0,req.body.name, req.body.display_order)
-    const returnArray = await svc.createAsync(event_categorie);
-    if(returnArray == 1){
-        respuesta = res.status(200).send('Se ha creado correctamente');
+    let respuesta;
+    const token = await svc.verifyAsync(req.body.username, req.body.password);
+    if(token != null){
+        respuesta = res.status(200).send(token);
     }else{
         respuesta = res.status(500).send('Error interno.');
-    }*/
+    }
 })
 
 router.put('', async (req, res) => {

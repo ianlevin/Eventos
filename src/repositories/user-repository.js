@@ -8,7 +8,7 @@ export default class UserRepository {
         const client = new Client(config)
         try{
             await client.connect()
-            const sql = 'SELECT * FROM event_categories'
+            const sql = 'SELECT * FROM users'
             const result = await client.query(sql)
             await client.end()
             returnArray = result.rows

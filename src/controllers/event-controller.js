@@ -2,9 +2,10 @@ import {Router} from 'express';
 import EventService from './../services/event-service.js';
 import Event from './../entities/events.js'
 import ValidacionesHelper from '../helpers/ValidacionesHelper.js';
-import DesencriptationsMiddleware from '../middlewares/desencriptation-middleware.js'
+import AutorizationMiddleware from '../middlewares/authorization-middleware.js'
 const router = Router();
 const svc = new EventService();
+const mw = new AutorizationMiddleware();
 
 router.get('', async (req, res) => {
     let respuesta;
@@ -55,9 +56,7 @@ router.post('', async (req, res) => {
     
 })
 
-router.post('/:id/enrollment', async (req, res) => {
-    
-    
+router.post('/:id/enrollment', mw.desencriptation, async (req, res) => {
     
 })
 
