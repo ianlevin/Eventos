@@ -59,10 +59,21 @@ router.post('', async (req, res) => {
 
 router.post('/:id/enrollment', mw.desencriptation, async (req, res) => {
     let respuesta;
-    let event_enrollment = new Event_enrollment(req.user.id)
-    const returnArray = await svc.createAsync(event_enrollment);
+    let event_enrollment = new Event_enrollment(0,req.params.id,req.user.id,null,'2024-10-10'/** date(now)*/,false,null,null)
+    const returnArray = await svc.createEnrollmentAsync(event_enrollment);
     if(returnArray == 1){
         respuesta = res.status(200).send('Se ha creado correctamente');
+    }else{
+        respuesta = res.status(500).send('Error interno.');
+    }
+
+})
+
+router.delete('/:id/enrollment', mw.desencriptation, async (req, res) => {
+    let respuesta;
+    const returnArray = await svc.deleteEnrollmentAsync(req.params.id,req.user.id);
+    if(returnArray == 1){
+        respuesta = res.status(200).send('Se ha eliminado correctamente del evento');
     }else{
         respuesta = res.status(500).send('Error interno.');
     }

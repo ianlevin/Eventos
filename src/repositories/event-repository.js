@@ -139,4 +139,37 @@ export default class EventRepository{
         }
         return objeto;
     }
+
+    createEnrollmentAsync= async (entity) => {
+        let objeto = null
+        const client = new Client(config)
+        try{
+            await client.connect()
+            const sql = 'INSERT INTO event_enrollments (id_event,id_user,description,registration_date_time,attended,observations,rating) VALUES ($1,$2,$3,$4,$5,$6,$7)'
+            const values = [entity.id_event,entity.id_user,entity.description,entity.registration_date_time,entity.attended,entity.observations,entity.rating]
+            const result = await client.query(sql, values)
+
+            await client.end()
+            objeto = result.rowCount
+        }catch (error){
+            console.log(error)
+        }
+        return objeto;
+    }
+
+    deleteEnrollmentAsync= async (id_event,id_user) => {
+        let objeto = null
+        const client = new Client(config)
+        try{
+            await client.connect()
+            const sql = `DELETE FROM event_enrollments WHERE id_event = ${id_event} AND id_user = ${id_user}`
+            const result = await client.query(sql)
+
+            await client.end()
+            objeto = result.rowCount
+        }catch (error){
+            console.log(error)
+        }
+        return objeto;
+    }
 }

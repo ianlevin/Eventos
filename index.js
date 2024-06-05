@@ -8,9 +8,6 @@ import Event_LocationsRouter from "./src/controllers/event_locations-controller.
 import Event_TagsRouter from "./src/controllers/event_tags-controller.js"
 import UserRouter from './src/controllers/user-controller.js'
 
-const middlewareUsuario = function (req, res, next){
-    
-}
 
 const app = express();
 const port = 3000;

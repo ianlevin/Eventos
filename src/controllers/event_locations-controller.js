@@ -2,10 +2,12 @@ import {Router} from 'express';
 import Event_LocationService from '../services/event_location-service.js';
 import Event_location from '../entities/event_location.js'
 import ValidacionesHelper from '../helpers/ValidacionesHelper.js';
+import AutorizationMiddleware from '../middlewares/authorization-middleware.js'
 const router = Router();
 const svc = new Event_LocationService();
+const mw = new AutorizationMiddleware();
 
-router.get('', async (req, res) => {
+router.get('',mw.desencriptation, async (req, res) => {
     let respuesta;
     const returnArray = await svc.getAllAsync();
     if (returnArray != null){

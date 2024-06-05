@@ -3,16 +3,23 @@ import UserRepository from '../repositories/user-repository.js';
 
 export default class authorization{
     desencriptation = async (req, res, next) => {
+        let respuesta;
         const substring = (req.headers.authorization).slice(7);
-        let payload;
+        let payload = null;
         try{
             payload = await jwt.verify(substring,"SECRET_KEY")
         }catch(e){
             console.log(e)
-            return res.status().send("token invalido")
+            respuesta = res.status(401).send("token invalido")
         }
-        req.user = payload
-        next();
+
+        if(payload != null){
+            req.user = payload
+            next();
+        }else{
+            return respuesta;
+        }
+        
         
     }
 }

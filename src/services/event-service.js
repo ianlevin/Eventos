@@ -38,4 +38,14 @@ export default class EventService{
         const objeto = await repo.UpdateAsync(entity);
         return objeto;
     }
+    createEnrollmentAsync = async (entity) =>{
+        const repo = new EventRepository();
+        const objeto = await repo.createEnrollmentAsync(entity);
+        return objeto;
+    }
+    deleteEnrollmentAsync = async (id_event,id_user) =>{
+        const repo = new EventRepository();
+        const objeto = await repo.deleteEnrollmentAsync(id_event,id_user);
+        return objeto;
+    }
 }
