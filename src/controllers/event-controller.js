@@ -1,6 +1,7 @@
 import {Router} from 'express';
 import EventService from './../services/event-service.js';
 import Event from './../entities/events.js'
+import Event_enrollment from './../entities/event_enrollments.js'
 import ValidacionesHelper from '../helpers/ValidacionesHelper.js';
 import AutorizationMiddleware from '../middlewares/authorization-middleware.js'
 const router = Router();
@@ -57,7 +58,15 @@ router.post('', async (req, res) => {
 })
 
 router.post('/:id/enrollment', mw.desencriptation, async (req, res) => {
-    
+    let respuesta;
+    let event_enrollment = new Event_enrollment(req.user.id)
+    const returnArray = await svc.createAsync(event_enrollment);
+    if(returnArray == 1){
+        respuesta = res.status(200).send('Se ha creado correctamente');
+    }else{
+        respuesta = res.status(500).send('Error interno.');
+    }
+
 })
 
 router.put('', async (req, res) => {

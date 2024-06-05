@@ -40,8 +40,8 @@ export default class UserRepository {
         const client = new Client(config)
         try{
             await client.connect()
-            const sql = 'INSERT into event_categories (name,display_order) VALUES ($1,$2)'
-            const values = [entity.name, entity.display_order]
+            const sql = 'INSERT into users (first_name,last_name,username,password) VALUES ($1,$2,$3,$4)'
+            const values = [entity.first_name,entity.last_name,entity.username,entity.password]
 
             const result = await client.query(sql, values)
             await client.end()
@@ -84,6 +84,22 @@ export default class UserRepository {
             await client.end()
 
             objeto = result.rowCount
+        }catch (error){
+            console.log(error)
+        }
+        return objeto;
+    }
+
+    verifyAsync = async (username,password) => {
+        let objeto = 0
+        const client = new Client(config)
+        try{
+            await client.connect()
+            const sql = `select * from users WHERE username = '${username}' AND password = '${password}'`
+
+            const result = await client.query(sql)
+            await client.end()
+            objeto = result.rows[0]
         }catch (error){
             console.log(error)
         }

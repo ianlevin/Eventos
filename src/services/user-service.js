@@ -8,17 +8,25 @@ export default class UserService{
     }
     verifyAsync = async (username, Password) => {
         
-        const payload = {
-            user: username,
-            password: Password
-        }
-    
-        const options = {
-            expiresIn: '1h'
-        }
-        const token = jwt.sign(payload,"SECRET_KEY", options)
+        const repo = new UserRepository();
+        let returnArray = await repo.verifyAsync(username,Password);
 
-        return token;
+        if(returnArray != undefined){
+            const payload = {
+                id: returnArray.id,
+                username: returnArray.username
+            }
+        
+            const options = {
+                expiresIn: '1h'
+            }
+            const token = jwt.sign(payload,"SECRET_KEY", options)
+    
+            return token;
+        }else{
+            return "No existe ese usuario"
+        }   
+        
     }
 
     getByIdAsync = async (id) => {
@@ -27,7 +35,7 @@ export default class UserService{
         return returnArray;
     }
     createAsync = async (entity) => {
-        const repo = new Event_categoryRepository();
+        const repo = new UserRepository();
         let returnArray = await repo.createAsync(entity);
         return returnArray;
     }

@@ -17,11 +17,11 @@ router.post('/login', async (req, res) => {
     }
 })
 router.post('/register', async (req, res) => {
-
     let respuesta;
-    const token = await svc.verifyAsync(req.body.username, req.body.password);
-    if(token != null){
-        respuesta = res.status(200).send(token);
+    let usuario = new User(0,req.body.first_name,req.body.last_name,req.body.username,req.body.password)
+    const returnArray = await svc.createAsync(usuario);
+    if(returnArray == 1){
+        respuesta = res.status(200).send('Se ha creado correctamente');
     }else{
         respuesta = res.status(500).send('Error interno.');
     }
