@@ -8,7 +8,17 @@ export default class EventRepository{
         const client = new Client(config)
         try{
             await client.connect()
-            const sql = `SELECT * FROM events ${stringsql}`
+            const sql = `SELECT * FROM events ${stringsql}
+            inner join event_tags on events.id = event_tags.id_event
+            inner join tags on event_tags.id_tag = tags.id`
+
+            /*select * from events
+            inner join event_categories on events.id_event_category = event_categories.id
+            inner join event_tags on events.id = event_tags.id_event
+            inner join tags on event_tags.id_tag = tags.id
+            where events.id_event_category = 1 AND events.name = 'Taylor Swift' AND tags.name = 'pop' */
+            //eso es para armar el query
+
             console.log(sql)
             const result = await client.query(sql)
             await client.end()

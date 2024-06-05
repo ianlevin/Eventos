@@ -8,7 +8,6 @@ export default class EventService{
             stringsql += `name = '${name}' AND `
         }
         if(category != null){
-            console.log("llego")
             stringsql += `id_event_category = ${category} AND `
         }
         if(startdate != null){
