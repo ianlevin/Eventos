@@ -175,4 +175,20 @@ export default class EventRepository{
         }
         return objeto;
     }
+
+    updateEnrollmentAsync= async (event_id,user_id,rating,observation) => {
+        let objeto = null
+        const client = new Client(config)
+        try{
+            await client.connect()
+            const sql = `UPDATE event_enrollments SET rating = ${rating}, observations = ${observation} WHERE id_event = ${event_id} AND id_user = ${user_id}  `
+            const result = await client.query(sql)
+
+            await client.end()
+            objeto = result.rowCount
+        }catch (error){
+            console.log(error)
+        }
+        return objeto;
+    }
 }
