@@ -3,19 +3,24 @@ import EventRepository from '../repositories/event-repository.js';
 export default class EventService{
     getAsync = async (name, category, startdate, tag) => {
         const repo = new EventRepository();
-        var stringsql = 'WHERE '
+        var stringsql = ''
+        if(tag != null){
+            stringsql += `inner join event_tags on events.id = event_tags.id_event
+            inner join tags on event_tags.id_tag = tags.id
+            WHERE tags.name = '${tag}' AND `
+        }else{
+            stringsql += 'WHERE '
+        }
         if(name != null){
-            stringsql += `name = '${name}' AND `
+            stringsql += `events.name = '${name}' AND `
         }
         if(category != null){
-            stringsql += `id_event_category = ${category} AND `
+            stringsql += `event_categories.name = '${category}' AND `
         }
         if(startdate != null){
             stringsql += `start_date = '${startdate}' AND `
         }
-        if(tag != null){
-            stringsql += `tag = '${name}' AND `
-        }
+        
         let sqlfinal = stringsql.substring(0,((stringsql.length)-5))
         let returnArray = await repo.getAsync(sqlfinal);
         return returnArray;
