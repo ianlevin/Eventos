@@ -84,9 +84,11 @@ router.patch('/:id/enrollment/:rating', mw.desencriptation, async (req, res) => 
     if(ValidacionesHelper.ValidarHasta10(req.params.id) == false){
         return respuesta = res.status(400).send("el valor no esta entre 1 y 10")
     }
-    const returnArray = await svc.updateEnrollmentAsync(req.params.id,req.user.id,req.params.rating,req.query.observations);
+    const returnArray = await svc.updateEnrollmentAsync(req.params.id,req.user.id,req.params.rating,req.body.observations);
     if(returnArray == 1){
         respuesta = res.status(200).send('Se ha creado correctamente');
+    }else if(returnArray.length > 0){
+        respuesta = res.status(400).send(returnArray);
     }else{
         respuesta = res.status(500).send('Error interno.');
     }

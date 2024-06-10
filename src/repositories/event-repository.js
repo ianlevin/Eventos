@@ -177,12 +177,29 @@ export default class EventRepository{
     }
 
     updateEnrollmentAsync= async (event_id,user_id,rating,observation) => {
+        console.log("aaaa",event_id,user_id,rating,observation)
         let objeto = null
         const client = new Client(config)
         try{
             await client.connect()
-            const sql = `UPDATE event_enrollments SET rating = ${rating}, observations = ${observation} WHERE id_event = ${event_id} AND id_user = ${user_id}  `
-            const result = await client.query(sql)
+            let sql = `SELECT start_date FROM events WHERE id = ${event_id}`
+            let result = await client.query(sql)
+            if(Date.now()<result.rows[0].start_date){
+                await client.end()
+                return "El evento no ha iniciado aun"
+            }else{
+                sql = `SELECT * FROM event_enrollments WHERE id_event = ${event_id} AND id_user = ${user_id}`
+                result = await client.query(sql)
+                if(result.rowCount > 0){
+                    sql = `UPDATE event_enrollments SET rating = ${rating}, observations = '${observation}' WHERE id_event = ${event_id} AND id_user = ${user_id}  `
+                    result = await client.query(sql)
+            }else{
+                await client.end()
+                return "El usuario no esta inscripto en el evento seleccionado"
+            }
+            }
+
+            
 
             await client.end()
             objeto = result.rowCount
