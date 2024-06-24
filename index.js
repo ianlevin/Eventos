@@ -7,6 +7,7 @@ import Event_CategoriesRouter from "./src/controllers/event_categories-controlle
 import Event_LocationsRouter from "./src/controllers/event_locations-controller.js"
 import Event_TagsRouter from "./src/controllers/event_tags-controller.js"
 import UserRouter from './src/controllers/user-controller.js'
+import LocationRouter from './src/controllers/locations-controller.js'
 
 
 const app = express();
@@ -15,7 +16,7 @@ const port = 3000;
 app.use(cors());
 app.use(express.json());
 
-app.use('/api/provinces', ProvinceRouter);
+app.use('/api/province', ProvinceRouter);
 app.use('/api/event', EventRouter);
 app.use('/api/tag', TagRouter)
 app.use('/api/categories', Event_CategoriesRouter)
@@ -23,7 +24,7 @@ app.use('/api/categories', Event_CategoriesRouter)
 app.use('/api/eventlocations', Event_LocationsRouter)
 app.use('/api/eventtags', Event_TagsRouter)
 app.use('/api/user', UserRouter)
-
+app.use('/api/locations', LocationRouter)
 
 app.listen(port, () => {
     console.log(`"server" Listening on port ${port}`);

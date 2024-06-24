@@ -12,6 +12,11 @@ export default class ProvinceService{
         const objeto = await repo.getByIdSync(id);
         return objeto;
     }
+    getLocationsByIdSync = async (id) => {
+        const repo = new ProvinceRepository();
+        const objeto = await repo.getLocationsByIdSync(id);
+        return objeto;
+    }
     CreateAsync = async (entity) => {
         const repo = new ProvinceRepository();
         const objeto = await repo.CreateAsync(entity);

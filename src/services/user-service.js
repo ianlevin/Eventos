@@ -24,7 +24,7 @@ export default class UserService{
     
             return token;
         }else{
-            return "No existe ese usuario"
+            return "Usuario o contraseña invalidos"
         }   
         
     }

@@ -39,7 +39,7 @@ export default class EventService{
     }
     updateAsync = async (entity) => {
         const repo = new EventRepository();
-        const objeto = await repo.UpdateAsync(entity);
+        const objeto = await repo.updateAsync(entity);
         return objeto;
     }
     createEnrollmentAsync = async (entity) =>{

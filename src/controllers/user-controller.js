@@ -10,8 +10,21 @@ const mw = new AutorizationMiddleware();
 router.post('/login', async (req, res) => {
     let respuesta;
     const token = await svc.verifyAsync(req.body.username, req.body.password);
+    let objeto = {
+        success: true,
+        message: "",
+        token: null
+    }
     if(token != null){
-        respuesta = res.status(200).send(token);
+        if(token.length>50){
+            objeto.token = token;
+            respuesta = res.status(200).send(objeto);
+        }else{
+            objeto.token = token;
+            objeto.success = false;
+            respuesta = res.status(400).send(objeto);
+        }
+        
     }else{
         respuesta = res.status(500).send('Error interno.');
     }

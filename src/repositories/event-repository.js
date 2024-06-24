@@ -131,10 +131,17 @@ export default class EventRepository{
         const client = new Client(config)
         try{
             await client.connect()
-            const sql = 'UPDATE events SET name = $1, description = $2, id_event_category = $3, id_event_location = $4, start_date = $5 ,duration_in_minutes = $6, price = $7,enabled_for_enrollment = $8,max_assistance = $9,id_creator_user = $10 where id = $11'
-            const values = [entity.name, entity.description, entity.id_event_category,entity.id_event_location, entity.start_date, entity.duration_in_minutes, entity.price, entity.enabled_for_enrollment,entity.max_assistance,entity.id_creator_user,entity.id]
+            let sql = 'select max_capacity from event_locations where id = $1'
+            let values = [entity.id_event_location]
+            let result = await client.query(sql, values)
 
-            const result = await client.query(sql, values)
+            if(parseInt(result.rows[0].max_capacity) < entity.max_assistance){
+                return "max_assistance_error"
+            }
+            sql = 'UPDATE events SET name = $1, description = $2, id_event_category = $3, id_event_location = $4, start_date = $5 ,duration_in_minutes = $6, price = $7,enabled_for_enrollment = $8,max_assistance = $9,id_creator_user = $10 WHERE id = $11'
+            values = [entity.name, entity.description, entity.id_event_category,entity.id_event_location, entity.start_date, entity.duration_in_minutes, entity.price, entity.enabled_for_enrollment,entity.max_assistance,entity.id_creator_user,entity.id]
+
+            result = await client.query(sql, values)
             await client.end()
             objeto = result.rowCount
         }catch (error){
