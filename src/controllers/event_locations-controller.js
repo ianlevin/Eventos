@@ -19,7 +19,7 @@ router.get('',mw.desencriptation, async (req, res) => {
     return respuesta;
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id',mw.desencriptation, async (req, res) => {
     let respuesta;
     if(ValidacionesHelper.ValidaNumero(req.params.id)){
         respuesta = res.status(200).send("No se escribio un numero")
@@ -36,7 +36,7 @@ router.get('/:id', async (req, res) => {
     
 })
 
-router.post('', async (req, res) => {
+router.post('',mw.desencriptation, async (req, res) => {
     let respuesta;
     let event_location = new Event_location(0,req.body.id_location,req.body.name,req.body.full_address,req.body.max_capacity,req.body.latitude,req.body.longitude,req.body.id_creator_user)
     const returnArray = await svc.createAsync(event_location);
@@ -47,7 +47,7 @@ router.post('', async (req, res) => {
     }
 })
 
-router.put('', async (req, res) => {
+router.put('',mw.desencriptation, async (req, res) => {
     let respuesta;
 
     let event_location = new Event_location(req.body.id,req.body.id_location,req.body.name,req.body.full_adress,req.body.max_capacity,req.body.latitude,req.body.longitude,req.body.id_creator_user)
@@ -59,7 +59,7 @@ router.put('', async (req, res) => {
     }
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id',mw.desencriptation, async (req, res) => {
     let respuesta;
     const returnArray = await svc.deleteByIdAsync(req.params.id);
 

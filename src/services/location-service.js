@@ -13,23 +13,9 @@ export default class ProvinceService{
         return objeto;
     }
     getLocationsByIdSync = async (id) => {
-        const repo = new ProvinceRepository();
+        const repo = new LocationRepository();
         const objeto = await repo.getLocationsByIdSync(id);
         return objeto;
     }
-    CreateAsync = async (entity) => {
-        const repo = new ProvinceRepository();
-        const objeto = await repo.CreateAsync(entity);
-        return objeto;
-    }
-    UpdateAsync = async (entity) => {
-        const repo = new ProvinceRepository();
-        const objeto = await repo.UpdateAsync(entity);
-        return objeto;
-    }
-    deleteByIdAsync = async (id) => {
-        const repo = new ProvinceRepository();
-        const objeto = await repo.deleteByIdAsync(id);
-        return objeto;
-    }
+    
 }
