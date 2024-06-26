@@ -59,22 +59,22 @@ export default class EventService{
     }
     getEnrollmentAsync = async (first_name, last_name, username, attended, rating) =>{
         const repo = new EventRepository();
-        var stringsql = ''
-        if(tag != null){
-            stringsql += `inner join event_tags on events.id = event_tags.id_event
-            inner join tags on event_tags.id_tag = tags.id
-            WHERE tags.name = '${tag}' AND `
-        }else{
-            stringsql += 'WHERE '
+        var stringsql = 'WHERE '
+
+        if(first_name != null){
+            stringsql += `users.first_name = ${first_name} AND `
         }
-        if(name != null){
-            stringsql += `events.name = '${name}' AND `
+        if(last_name != null){
+            stringsql += `users.last_name = ${last_name} AND `
         }
-        if(category != null){
-            stringsql += `event_categories.name = '${category}' AND `
+        if(username != null){
+            stringsql += `users.username = ${username} AND `
         }
-        if(startdate != null){
-            stringsql += `start_date = '${startdate}' AND `
+        if(attended != null){
+            stringsql += `event_enrollments.attended = ${attended} AND `
+        }
+        if(reting != null){
+            stringsql += `event_enrollments.rating = ${rating} AND ` 
         }
         
         let sqlfinal = stringsql.substring(0,((stringsql.length)-5))
