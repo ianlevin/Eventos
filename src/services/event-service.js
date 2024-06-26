@@ -57,4 +57,28 @@ export default class EventService{
         const objeto = await repo.updateEnrollmentAsync(event_id,user_id,rating,observation);
         return objeto;
     }
+    getEnrollmentAsync = async (first_name, last_name, username, attended, rating) =>{
+        const repo = new EventRepository();
+        var stringsql = ''
+        if(tag != null){
+            stringsql += `inner join event_tags on events.id = event_tags.id_event
+            inner join tags on event_tags.id_tag = tags.id
+            WHERE tags.name = '${tag}' AND `
+        }else{
+            stringsql += 'WHERE '
+        }
+        if(name != null){
+            stringsql += `events.name = '${name}' AND `
+        }
+        if(category != null){
+            stringsql += `event_categories.name = '${category}' AND `
+        }
+        if(startdate != null){
+            stringsql += `start_date = '${startdate}' AND `
+        }
+        
+        let sqlfinal = stringsql.substring(0,((stringsql.length)-5))
+        let returnArray = await repo.getAsync(sqlfinal);
+        return objeto;
+    }
 }

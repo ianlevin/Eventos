@@ -215,4 +215,38 @@ export default class EventRepository{
         }
         return objeto;
     }
+
+    getEnrollmentAsync = async (stringsql) =>{
+        let returnArray = null
+        const client = new Client(config)
+        try{
+            await client.connect()
+            const sql = `select event_enrollments.id,
+            event_enrollments.id_event,
+            event_enrollments.id_user,
+            json_build_object(
+                'id', users.id,
+                'first_name', users.first_name,
+                'last_name', users.last_name,
+                'username', users.username,
+                'password', users.password
+            ) as user,
+            event_enrollments.description,
+            event_enrollments.registration_date_time,
+            event_enrollments.attended,
+            event_enrollments.observations,
+            event_enrollments.rating
+            from event_enrollments
+            left join users on event_enrollments.id_user = users.id 
+            ${stringsql}`
+
+            console.log(sql)
+            const result = await client.query(sql)
+            await client.end()
+            returnArray = result.rows
+        } catch (error){
+            console.log(error)
+        }
+        return returnArray;
+    }
 }

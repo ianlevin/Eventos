@@ -113,4 +113,17 @@ router.put('', mw.desencriptation ,async (req, res) => {
     }
 })
 
+
+router.get('/:id/enrollment', mw.desencriptation, async (req, res) => {
+    let respuesta;
+    const returnArray = await svc.getEnrollmentAsync(req.query.first_name, req.query.last_name, req.query.username, req.query.attended, req.query.rating);
+
+    if(returnArray == null){
+        respuesta = res.status(500).send('Error interno.');
+    }else{
+        respuesta = res.status(200).json(returnArray);
+    }
+
+    return respuesta;
+})
 export default router;
