@@ -62,13 +62,13 @@ export default class EventService{
         var stringsql = 'WHERE '
 
         if(first_name != null){
-            stringsql += `users.first_name = ${first_name} AND `
+            stringsql += `users.first_name = '${first_name}' AND `
         }
         if(last_name != null){
             stringsql += `users.last_name = '${last_name}' AND `
         }
         if(username != null){
-            stringsql += `users.username = ${username} AND `
+            stringsql += `users.username = '${username}' AND `
         }
         if(attended != null){
             stringsql += `event_enrollments.attended = ${attended} AND `
@@ -78,7 +78,7 @@ export default class EventService{
         }
         
         let sqlfinal = stringsql.substring(0,((stringsql.length)-5))
-        let returnArray = await repo.getEnrollmentAsync(sqlfinal,first_name,last_name,username);
+        let returnArray = await repo.getEnrollmentAsync(sqlfinal);
         return returnArray;
     }
 }
