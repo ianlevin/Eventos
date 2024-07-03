@@ -73,13 +73,9 @@ export default class Event_locationRepository {
         let objeto = null
         const client = new Client(config)
         try{
-            await client.connect()
-            let sql = 'DELETE FROM events WHERE id_event_locatios = $1'
-            let values = [id]
-            let result = await client.query(sql, values)
 
-            sql = 'DELETE FROM event_locations WHERE Id = $1'
-            values = [id]
+            const sql = 'DELETE FROM event_locations WHERE Id = $1'
+            const values = [id]
             result = await client.query(sql, values)
             await client.end()
 

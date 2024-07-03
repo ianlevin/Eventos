@@ -81,4 +81,9 @@ export default class EventService{
         let returnArray = await repo.getEnrollmentAsync(sqlfinal);
         return returnArray;
     }
+    deleteByIdAsync = async (id) =>{
+        const repo = new EventRepository();
+        const objeto = await repo.deleteByIdAsync(id);
+        return objeto;
+    }
 }

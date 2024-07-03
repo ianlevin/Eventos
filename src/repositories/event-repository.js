@@ -143,6 +143,7 @@ export default class EventRepository{
 
             result = await client.query(sql, values)
             await client.end()
+            console.log(result.rowCount)
             objeto = result.rowCount
         }catch (error){
             console.log(error)
@@ -248,5 +249,22 @@ export default class EventRepository{
             console.log(error)
         }
         return returnArray;
+    }
+    deleteByIdAsync = async (id) => {
+        let objeto = null
+        const client = new Client(config)
+        try{
+            await client.connect()
+
+            const sql = 'DELETE FROM events WHERE Id = $1'
+            const values = [id]
+            result = await client.query(sql, values)
+            await client.end()
+
+            objeto = result.rowCount
+        }catch (error){
+            console.log(error)
+        }
+        return objeto;
     }
 }

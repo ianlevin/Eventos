@@ -19,12 +19,12 @@ app.use(express.json());
 app.use('/api/province', ProvinceRouter);
 app.use('/api/event', EventRouter);
 app.use('/api/tag', TagRouter)
-app.use('/api/categories', Event_CategoriesRouter)
+app.use('/api/event_category', Event_CategoriesRouter)
 
-app.use('/api/eventlocations', Event_LocationsRouter)
+app.use('/api/event_location', Event_LocationsRouter)
 app.use('/api/eventtags', Event_TagsRouter)
 app.use('/api/user', UserRouter)
-app.use('/api/locations', LocationRouter)
+app.use('/api/location', LocationRouter)
 
 app.listen(port, () => {
     console.log(`"server" Listening on port ${port}`);

@@ -104,7 +104,7 @@ router.put('', mw.desencriptation ,async (req, res) => {
             respuesta = res.status(401).send('max_assistance es mayor que max_capacity del evento');
         }
         else if(returnArray == 1){
-            respuesta = res.status(200).send('Se ha creado correctamente');
+            respuesta = res.status(200).send('Se ha actualizado correctamente');
         }else{
             respuesta = res.status(500).send('Error interno.');
         }
@@ -125,5 +125,22 @@ router.get('/:id/enrollment', mw.desencriptation, async (req, res) => {
     }
 
     return respuesta;
+})
+router.delete('/:id', async (req, res) => {
+    let respuesta;
+    const returnArray = await svc.deleteByIdAsync(req.params.id);
+
+    if(ValidacionesHelper.ValidaNumero(req.params.id)){
+        respuesta = res.status(200).send("No se escribio un numero")
+    }else{
+        if(returnArray == 1){
+            respuesta = res.status(200).send('Se ha eliminado correctamente');
+        }else if(returnArray == 0){
+            respuesta = res.status(200).send('No hay ninguna provincia con ese id');
+        }else{
+            respuesta = res.status(500).send('error interno');
+        }
+    }
+    
 })
 export default router;
