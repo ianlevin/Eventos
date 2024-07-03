@@ -65,7 +65,7 @@ export default class EventService{
             stringsql += `users.first_name = ${first_name} AND `
         }
         if(last_name != null){
-            stringsql += `users.last_name = ${last_name} AND `
+            stringsql += `users.last_name = '${last_name}' AND `
         }
         if(username != null){
             stringsql += `users.username = ${username} AND `
@@ -73,12 +73,12 @@ export default class EventService{
         if(attended != null){
             stringsql += `event_enrollments.attended = ${attended} AND `
         }
-        if(reting != null){
+        if(rating != null){
             stringsql += `event_enrollments.rating = ${rating} AND ` 
         }
         
         let sqlfinal = stringsql.substring(0,((stringsql.length)-5))
-        let returnArray = await repo.getAsync(sqlfinal);
-        return objeto;
+        let returnArray = await repo.getEnrollmentAsync(sqlfinal,first_name,last_name,username);
+        return returnArray;
     }
 }

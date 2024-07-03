@@ -216,12 +216,29 @@ export default class EventRepository{
         return objeto;
     }
 
-    getEnrollmentAsync = async (stringsql) =>{
+    getEnrollmentAsync = async (stringsql,first_name,last_name,username) =>{
         let returnArray = null
         const client = new Client(config)
         try{
             await client.connect()
-            const sql = `select event_enrollments.id,
+            if(first_name != null && last_name != null && username != null){
+
+            }else if(first_name != null && last_name != null){
+
+            }else if(last_name != null && username != null){
+
+            }else if(first_name != null && username != null){
+
+            }else if(first_name != null){
+
+            }else if(last_name != null){
+
+            }else if(username != null){
+
+            }
+
+
+            sql = `select event_enrollments.id,
             event_enrollments.id_event,
             event_enrollments.id_user,
             json_build_object(
@@ -235,7 +252,7 @@ export default class EventRepository{
             event_enrollments.registration_date_time,
             event_enrollments.attended,
             event_enrollments.observations,
-            event_enrollments.rating
+            event_enrollments.ratings
             from event_enrollments
             left join users on event_enrollments.id_user = users.id 
             ${stringsql}`
