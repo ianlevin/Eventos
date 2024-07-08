@@ -19,9 +19,9 @@ app.use(express.json());
 app.use('/api/province', ProvinceRouter);
 app.use('/api/event', EventRouter);
 app.use('/api/tag', TagRouter)
-app.use('/api/event_category', Event_CategoriesRouter)
+app.use('/api/event-category', Event_CategoriesRouter)
 
-app.use('/api/event_location', Event_LocationsRouter)
+app.use('/api/event-location', Event_LocationsRouter)
 app.use('/api/eventtags', Event_TagsRouter)
 app.use('/api/user', UserRouter)
 app.use('/api/location', LocationRouter)

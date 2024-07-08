@@ -102,4 +102,20 @@ export default class ProvinceRepository {
         return objeto;
     }
 
+
+    getLocationsByIdSync= async (id) => {
+        let objeto = null
+        const client = new Client(config)
+        try{
+            await client.connect()
+            const sql = `select * from locations where id_province = ${id}`
+
+            const result = await client.query(sql)
+            await client.end()
+            objeto = result.rows
+        }catch (error){
+            console.log(error)
+        }
+        return objeto;
+    }
 }

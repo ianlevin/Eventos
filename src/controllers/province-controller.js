@@ -39,7 +39,7 @@ router.get('/:id/locations', async (req, res) => {
     if(ValidacionesHelper.ValidaNumero(req.params.id)){
         respuesta = res.status(200).send("No se escribio un numero")
     }else{
-        const returnArray = await svc.getByIdSync(req.params.id);
+        const returnArray = await svc.getLocationsByIdSync(req.params.id);
         if(returnArray.length > 0){
             respuesta = res.status(200).json(returnArray);
         }else if(returnArray.length == 0){
