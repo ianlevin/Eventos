@@ -59,7 +59,7 @@ router.post('', mw.desencriptation ,async (req, res) => {
 
 router.post('/:id/enrollment', mw.desencriptation, async (req, res) => {
     let respuesta;
-    let event_enrollment = new Event_enrollment(0,req.params.id,req.user.id,null,'2024-10-10'/** date(now)*/,false,null,null)
+    let event_enrollment = new Event_enrollment(0,req.params.id,req.user.id,null,new Date(),false,null,null)
     const returnArray = await svc.createEnrollmentAsync(event_enrollment);
     if(returnArray == 1){
         respuesta = res.status(200).send('Se ha creado correctamente');
