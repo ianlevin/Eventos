@@ -10,7 +10,7 @@ const mw = new AutorizationMiddleware();
 
 router.get('', async (req, res) => {
     let respuesta;
-    const returnArray = await svc.getAsync(req.query.name, req.query.category, req.query.startdate, req.query.tag);
+    const returnArray = await svc.getAsync(req.query.name, req.query.categorie, req.query.startdate, req.query.tag);
 
     if(returnArray == null){
         respuesta = res.status(500).send('Error interno.');
